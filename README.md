@@ -5,6 +5,8 @@
 ### System
 
 #### GET
+`/` for testing purposes, returns `hello world`
+
 `/shutdown` attempts a backup and shuts down the raspberry pi
 
 *no response*
@@ -17,6 +19,10 @@
 
 *empty response*
 
+`/success` lights the green LED for a short amount of time and plays a short buzzer sound.
+
+`/failure` lights the red LED for a short amount of time and plays the buzzer a 3 times.
+
 `/wifis` returns a list of all installed wifis
 
 *response payload*:
@@ -25,7 +31,7 @@
     "wifis": 
     [
         {
-            "id": 0, 
+            "uid": 0, 
             "ssid": "Mutter von Niki Lauda",
             "password": "********"
         }
@@ -33,7 +39,7 @@
 }
 ```
 
-`/wifi/{id}` returns the wifi with `id`
+`/wifi/{uid}` returns the wifi with `uid`
 
 *response payload*:
 ```json
@@ -41,7 +47,7 @@
     "wifis": 
     [
         {
-            "id": 0, 
+            "uid": 0, 
             "ssid": "Mutter von Niki Lauda",
             "password": "********"
         }
@@ -50,53 +56,53 @@
 ```
 
 #### POST
-`/wifi` creates a new wifi. The next available `id` is chosen by the server. All fields are optional. Returns the `id` of the newly created wifi. Installs all wifis
+`/wifi` creates a new wifi. The next available `uid` is chosen by the server. All fields are optional. Returns the `uid` of the newly created wifi. Installs all wifis
 
 *request payload*:
 ```json
 {
-    "id": 0, // optional, is not used
+    "uid": 0, // optional, is not used
     "ssid": "", // first value to update
     "password": "" // second value to update
 }
 ```
 
 #### PUT
-`/wifi/{id}` updates all fields **except** `id` of the wifi with `id`
+`/wifi/{uid}` updates all fields **except** `uid` of the wifi with `uid`
 
 *request payload*:
 ```json
 {
-    "id": 0, // optional, is not used
+    "uid": 0, // optional, is not used
     "ssid": "LMS", // first value to update
     "password": "********" // second value to update
 }
 ```
 
 #### DELETE
-`/wifi/{id}` deletes the wifi with `id`.
+`/wifi/{uid}` deletes the wifi with `uid`.
 
 ### RFID
 
 #### GET
-`/rfid` reads the RFID card and returns the current `uid`. The request in non-blocking
+`/rfuid` reads the RFID card and returns the current `c_uid`. The request in non-blocking
 
 *response payload (if found)*:
 ```json
 {
-    "uid": "4589A3FE"
+    "c_uid": "4589A3FE"
 }
 ```
 
 *response payload (if not found)*:
 ```json
 {
-    "uid": null
+    "c_uid": null
 }
 ```
 
 ### People
-All people are identified via their `id`.
+All people are uidentified via their `uid`.
 
 #### GET
 
@@ -110,12 +116,12 @@ All people are identified via their `id`.
     },
 ]
 ```
-`/people/by_uid/{uid}` returns the person with the `uid` in their `cards` list.
+`/people/by_card/{c_uid}` returns the person with the `c_uid` in their `cards` list.
 
 *response payload*:
 ```json
 {
-    "id": 0,
+    "uid": 0,
     "surname": "Noah",
     "lastname": "Zarro",
     "vulgo": "Calmo",
@@ -135,12 +141,12 @@ All people are identified via their `id`.
 }
 ```
 
-`/people/{id}` returns the person with `id`.
+`/people/{uid}` returns the person with `uid`.
 
 *response payload*:
 ```json
 {
-    "id": 0,
+    "uid": 0,
     "surname": "Noah",
     "lastname": "Zarro",
     "vulgo": "Calmo",
@@ -161,12 +167,12 @@ All people are identified via their `id`.
 ```
 
 #### POST
-`/people` creates a new person. The next available `id` is chosen by the server. All fields are optional. Returns the `id` of the newly created person.
+`/people` creates a new person. The next available `uid` is chosen by the server. All fields are optional. Returns the `uid` of the newly created person.
 
 *request payload*:
 ```json
     {
-        "id": 0, // optional, not used 
+        "uid": 0, // optional, not used 
         "surname": "", // default
         "lastname": "", // default
         "vulgo": "", // default
@@ -178,27 +184,27 @@ All people are identified via their `id`.
 ```
 
 #### PUT
-`/people/{id}` updates all fields **except** `id` of the person with `id`
+`/people/{uid}` updates all fields **except** `uid` of the person with `uid`
 
 *request payload*:
 ```json
 {
-    "id": 0, // optional, is not used
+    "uid": 0, // optional, is not used
     "balance": 525, // first value to update
     "statistics": 28 // second value to update
 }
 ```
-`/people/update_id/{id}` updates **only** the `id` field of the person with `id`.
+`/people/update_uid/{uid}` updates **only** the `uid` field of the person with `uid`.
 
 *request payload*:
 ```json
 {
-    "id": 5, // new id
+    "uid": 5, // new uid
 }
 ```
 
 #### DELETE
-`/people/{id}` deletes the person with `id`.
+`/people/{uid}` deletes the person with `uid`.
 
 
 ## Database
@@ -209,7 +215,7 @@ All persistent data is saved in JSON files.
 ```json
 [ // list of persons
     {
-        "id": 0, // unique identifier 
+        "uid": 0, // unique uidentifier 
         "surname": "Noah",
         "lastname": "Zarro",
         "vulgo": "Calmo",
@@ -235,7 +241,7 @@ All persistent data is saved in JSON files.
 ```json
 [ // list of possible achievements
     {
-        "id": 0,
+        "uid": 0,
         "name": "Erstes Pör",
         "description": "Du hast dein erstes Bier gesufft!",
         "image": "first.png"
@@ -249,20 +255,20 @@ All persistent data is saved in JSON files.
     "wifis": 
     [ // list of all wifis to connect
         {
-            "id": 0, // unique identifier
+            "uid": 0, // unique uidentifier
             "ssid": "Mutter von Niki Lauda",
             "password": "********"
         }
     ],
-    "next_person_id": 1, // next id to assign to a person
-    "next_wifi_id": 1 // next id to assign to a wifi
+    "next_person_uid": 1, // next uid to assign to a person
+    "next_wifi_uid": 1 // next uid to assign to a wifi
 }
 ```
 ## RFID
 
 The server uses [this library](https://github.com/pimylifeup/MFRC522-python) to read the RFID card.
 
-It only uses the `read_id_no_block` function
+It only uses the `read_uid_no_block` function
 
 ## System
 The server is able to do the following tasks:
