@@ -26,7 +26,7 @@
 `/wifis` returns a list of all installed wifis
 
 *response payload*:
-```json
+```jsoncc
 {
     "wifis": 
     [
@@ -42,7 +42,7 @@
 `/wifi/{uid}` returns the wifi with `uid`
 
 *response payload*:
-```json
+```jsonc
 {
     "wifis": 
     [
@@ -59,7 +59,7 @@
 `/wifi` creates a new wifi. The next available `uid` is chosen by the server. All fields are optional. Returns the `uid` of the newly created wifi. Installs all wifis
 
 *request payload*:
-```json
+```jsonc
 {
     "uid": 0, // optional, is not used
     "ssid": "", // first value to update
@@ -71,7 +71,7 @@
 `/wifi/{uid}` updates all fields **except** `uid` of the wifi with `uid`
 
 *request payload*:
-```json
+```jsonc
 {
     "uid": 0, // optional, is not used
     "ssid": "LMS", // first value to update
@@ -88,14 +88,14 @@
 `/rfuid` reads the RFID card and returns the current `c_uid`. The request in non-blocking
 
 *response payload (if found)*:
-```json
+```jsonc
 {
     "c_uid": "4589A3FE"
 }
 ```
 
 *response payload (if not found)*:
-```json
+```jsonc
 {
     "c_uid": null
 }
@@ -109,7 +109,7 @@ All people are uidentified via their `uid`.
 `/people` returns a list of all people
 
 *response payload*:
-```json
+```jsonc
 [
     {
         // person
@@ -119,7 +119,7 @@ All people are uidentified via their `uid`.
 `/people/by_card/{c_uid}` returns the person with the `c_uid` in their `cards` list.
 
 *response payload*:
-```json
+```jsonc
 {
     "uid": 0,
     "surname": "Noah",
@@ -144,7 +144,7 @@ All people are uidentified via their `uid`.
 `/people/{uid}` returns the person with `uid`.
 
 *response payload*:
-```json
+```jsonc
 {
     "uid": 0,
     "surname": "Noah",
@@ -170,7 +170,7 @@ All people are uidentified via their `uid`.
 `/people` creates a new person. The next available `uid` is chosen by the server. All fields are optional. Returns the `uid` of the newly created person.
 
 *request payload*:
-```json
+```jsonc
     {
         "uid": 0, // optional, not used 
         "surname": "", // default
@@ -187,7 +187,7 @@ All people are uidentified via their `uid`.
 `/people/{uid}` updates all fields **except** `uid` of the person with `uid`
 
 *request payload*:
-```json
+```jsonc
 {
     "uid": 0, // optional, is not used
     "balance": 525, // first value to update
@@ -197,7 +197,7 @@ All people are uidentified via their `uid`.
 `/people/update_uid/{uid}` updates **only** the `uid` field of the person with `uid`.
 
 *request payload*:
-```json
+```jsonc
 {
     "uid": 5, // new uid
 }
@@ -212,7 +212,7 @@ All people are uidentified via their `uid`.
 All persistent data is saved in JSON files. 
 
 ### Personal Data
-```json
+```jsonc
 [ // list of persons
     {
         "uid": 0, // unique uidentifier 
@@ -238,7 +238,7 @@ All persistent data is saved in JSON files.
 ```
 
 ### Achievements
-```json
+```jsonc
 [ // list of possible achievements
     {
         "uid": 0,
@@ -250,7 +250,7 @@ All persistent data is saved in JSON files.
 ```
 
 ### Settings
-```json
+```jsonc
 {
     "wifis": 
     [ // list of all wifis to connect
