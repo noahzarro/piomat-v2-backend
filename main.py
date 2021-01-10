@@ -107,6 +107,33 @@ def remove_person(uid):
     new_list = [person for person in people_list if person["uid"] != uid]
     set_people_list(new_list)
 
+
+# * system operations
+
+def do_backup():
+    # TODO
+    print("NYI backup")
+
+
+def do_shutdown():
+    # TODO
+    print("NYI shutdown")
+
+
+def do_reboot():
+    # TODO
+    print("NYI reboot")
+
+
+def do_success():
+    # TODO
+    print("NYI success")
+
+
+def do_failure():
+    # TODO
+    print("NYI failure")
+
 # * system requests
 
 
@@ -114,6 +141,41 @@ def remove_person(uid):
 def test():
     # test
     return "hello world"
+
+
+@app.route('/backup')
+def backup():
+    # backup
+    do_backup()
+    return ("", 204)
+
+
+@app.route('/shutdown')
+def shutdown():
+    # shutdown
+    do_shutdown()
+    return ("", 204)
+
+
+@app.route('/reboot')
+def reboot():
+    # reboot
+    do_reboot()
+    return ("", 204)
+
+
+@app.route('/success')
+def success():
+    # success
+    do_success()
+    return ("", 204)
+
+
+@app.route('/failure')
+def failure():
+    # failure
+    do_failure()
+    return ("", 204)
 
 # * people requests
 
