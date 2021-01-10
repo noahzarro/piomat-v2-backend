@@ -26,7 +26,7 @@
 `/wifis` returns a list of all installed wifis
 
 *response payload*:
-```jsoncc
+```jsonc
 {
     "wifis": 
     [
@@ -110,11 +110,14 @@ All people are uidentified via their `uid`.
 
 *response payload*:
 ```jsonc
-[
-    {
-        // person
-    },
-]
+{
+    "people":
+    [
+        {
+            // person
+        },
+    ]
+}
 ```
 `/people/by_card/{c_uid}` returns the person with the `c_uid` in their `cards` list.
 
@@ -181,6 +184,12 @@ All people are uidentified via their `uid`.
         "awards": [], // default
         "cards": [] //default
     }
+```
+*response payload*:
+```jsonc
+{
+    "uid": 0 // newly assigned uid
+}
 ```
 
 #### PUT

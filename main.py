@@ -1,46 +1,34 @@
 import json
-
-from dataclasses import dataclass
-from dacite import from_dict
 from flask import Flask
+from flask import request
 
 app = Flask("backend")
 
+# default person
+default_person = {
+    "uid": 0,
+    "surname": "",
+    "lastname": "",
+    "vulgo": "",
+    "balance": 0,
+    "statistics": 0,
+    "awards": [],
+    "cards": []
+}
 
-# * datatypes
+# * file operations
 
-@dataclass
-class Wifi:
-    uid: int
-    ssid: str
-    password: str
-
-
-@dataclass
-class Settings:
-    wifis: List[Wifi]
-    next_person_uid: int
-    next_wifi_uid: int
-
-
-@dataclass
-class Person:
-    uid: int
-    surname: str
-    lastname: str
-    vulgo: str
-    balance: int
-    statistics: int
-    awards: List[int]
-    cards: List[str]
-
-
-# * people
 
 def get_people_list():
     # returns a list of all people
     with open("people.json") as f:
         return json.load(f)
+
+
+def set_people_list(people):
+    # writes the settings dict
+    with open("people.json", "w") as f:
+        json.dump(people, f)
 
 
 def get_settings():
@@ -54,6 +42,15 @@ def set_settings(settings):
     with open("settings.json", "w") as f:
         json.dump(settings, f)
 
+# * people operations
+
+
+def add_person(new_person):
+    # saves a new person
+    people_list = get_people_list()
+    people_list.append(new_person)
+    set_people_list(people_list)
+
 
 def increment_next_person_id():
     # gets and returns the current next_person_uid from the settings file, increments it and saves it again
@@ -64,10 +61,39 @@ def increment_next_person_id():
     return this_id
 
 
-def create_new_person():
+def create_new_person(new_person_dict):
     # assigns a new id to the person and saves it
-    
+    new_person = default_person
+    new_person.update(new_person_dict)
+    new_person["uid"] = increment_next_person_id()
+    add_person(new_person)
+    return {"uid": new_person["uid"]}
 
+
+def find_person_by_uid(uid):
+    # return person with uid
+    people_list = get_people_list()
+    for person in people_list:
+        if person["uid"] == uid:
+            return person
+
+
+def update_person(uid, new_person_dict):
+    # updates a person with new values
+    people_list = get_people_list()
+    found = False
+    for person in people_list:
+        if person["uid"] == uid:
+            person.update(new_person_dict)
+            found = True
+    set_people_list(people_list)
+    return found
+
+def remove_person(uid):
+    # removes person with uid from list
+    people_list = get_people_list()
+    new_list = [person for person in people_list if person["uid"]!=uid]
+    set_people_list(new_list)
 
 # * system requests
 
@@ -76,16 +102,40 @@ def test():
     # test
     return "hello world"
 
+# * people requests
+
 
 @app.route('/people', methods=['GET', 'POST'])
 def people():
     # return people list
     if request.method == 'GET':
-        return get_people_list()
+        return {"people": get_people_list()}
 
     # create new people list
     elif request.method == 'POST':
-        return create_new_person(request.form)
+        print(request.get_json(force=True))
+        return create_new_person(request.get_json(force=True))
+
+
+@app.route('/people/<uid>', methods=['GET', 'PUT', 'DELETE'])
+def people_uid(uid):
+    # return people list
+    if request.method == 'GET':
+        return find_person_by_uid(int(uid))
+
+    # updates person, identified by uid
+    elif request.method == 'PUT':
+        person_dict = request.get_json(force=True)
+        found = update_person(int(uid), person_dict)
+        if found:
+            return ("", 204)
+        else:
+            return (uid + " not found", 404)
+    
+    # removes person with uid from database
+    if request.method == 'DELETE':
+        remove_person(int(uid))
+        return ("", 204)
 
 
 if __name__ == '__main__':
