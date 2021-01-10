@@ -35,7 +35,7 @@
             "ssid": "Mutter von Niki Lauda",
             "password": "********"
         }
-    ],
+    ]
 }
 ```
 
@@ -44,14 +44,9 @@
 *response payload*:
 ```jsonc
 {
-    "wifis": 
-    [
-        {
-            "uid": 0, 
-            "ssid": "Mutter von Niki Lauda",
-            "password": "********"
-        }
-    ],
+    "uid": 0, 
+    "ssid": "Mutter von Niki Lauda",
+    "password": "********"
 }
 ```
 

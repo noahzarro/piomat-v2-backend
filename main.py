@@ -134,6 +134,87 @@ def do_failure():
     # TODO
     print("NYI failure")
 
+# * wifi operations
+
+def install_wifis():
+    # TODO
+    print("NYI wifi")
+
+
+def get_wifi_list()
+    # returns current list of wifis
+    return get_settings()["wifis"]
+
+def set_wifi_list(new_wifis)
+    # overwrites the wifis list in the database with new_wifis
+    old_settings = get_settings()
+    old_settings["wifis"] = new_wifis
+    set_settings(old_settings)
+
+
+def add_wifi(new_wifi):
+    # saves a new wifi
+    wifi_list = get_wifi_list()
+    wifi_list.append(new_wifi)
+    set_wifi_list(wifi_list)
+
+
+def increment_next_wifi_id():
+    # gets and returns the current next_wifi_uid from the settings file, increments it and saves it again
+    settings = get_settings()
+    this_id = settings["next_wifi_uid"]
+    settings["next_wifi_uid"] = this_id+1
+    set_settings(settings)
+    return this_id
+
+
+def create_new_wifi(new_wifi_dict):
+    # assigns a new id to the wifi and saves it
+    new_wifi = default_wifi
+    new_wifi.update(new_wifi_dict)
+    new_wifi["uid"] = increment_next_wifi_id()
+    add_wifi(new_wifi)
+    return {"uid": new_wifi["uid"]}
+
+
+def find_wifi_by_uid(uid):
+    # return wifi with uid
+    wifi_list = get_wifi_list()
+    for wifi in wifi_list:
+        if wifi["uid"] == uid:
+            return wifi
+    return {}
+
+
+def find_wifi_by_card(c_uid):
+    # return wifi with c_uid in cards list
+    wifi_list = get_wifi_list()
+    for wifi in wifi_list:
+        for card_uid in wifi["cards"]:
+            if card_uid == c_uid:
+                return wifi
+    return {}
+
+
+def update_wifi(uid, new_wifi_dict):
+    # updates a wifi with new values
+    wifi_list = get_wifi_list()
+    found = False
+    for wifi in wifi_list:
+        if wifi["uid"] == uid:
+            wifi.update(new_wifi_dict)
+            found = True
+    set_wifi_list(wifi_list)
+    return found
+
+
+def remove_wifi(uid):
+    # removes wifi with uid from list
+    wifi_list = get_wifi_list()
+    new_list = [wifi for wifi in wifi_list if wifi["uid"] != uid]
+    set_wifi_list(new_list)
+
+
 # * system requests
 
 
