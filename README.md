@@ -203,14 +203,6 @@ All people are uidentified via their `uid`.
     "statistics": 28 // second value to update
 }
 ```
-`/people/update_uid/{uid}` updates **only** the `uid` field of the person with `uid`.
-
-*request payload*:
-```jsonc
-{
-    "uid": 5, // new uid
-}
-```
 
 #### DELETE
 `/people/{uid}` deletes the person with `uid`.

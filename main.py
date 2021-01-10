@@ -76,6 +76,17 @@ def find_person_by_uid(uid):
     for person in people_list:
         if person["uid"] == uid:
             return person
+    return {}
+
+
+def find_person_by_card(c_uid):
+    # return person with c_uid in cards list
+    people_list = get_people_list()
+    for person in people_list:
+        for card_uid in person["cards"]:
+            if card_uid == c_uid:
+                return person
+    return {}
 
 
 def update_person(uid, new_person_dict):
@@ -89,13 +100,15 @@ def update_person(uid, new_person_dict):
     set_people_list(people_list)
     return found
 
+
 def remove_person(uid):
     # removes person with uid from list
     people_list = get_people_list()
-    new_list = [person for person in people_list if person["uid"]!=uid]
+    new_list = [person for person in people_list if person["uid"] != uid]
     set_people_list(new_list)
 
 # * system requests
+
 
 @app.route('/')
 def test():
@@ -121,7 +134,11 @@ def people():
 def people_uid(uid):
     # return people list
     if request.method == 'GET':
-        return find_person_by_uid(int(uid))
+        found_person = find_person_by_uid(int(uid))
+        if found_person == {}:
+            return ("person with uid "+uid+" not found", 404)
+        else:
+            return found_person
 
     # updates person, identified by uid
     elif request.method == 'PUT':
@@ -131,11 +148,22 @@ def people_uid(uid):
             return ("", 204)
         else:
             return (uid + " not found", 404)
-    
+
     # removes person with uid from database
     if request.method == 'DELETE':
         remove_person(int(uid))
         return ("", 204)
+
+
+@app.route('/people/by_card/<c_uid>', methods=['GET'])
+def people_by_card(c_uid):
+    # return people list
+    if request.method == 'GET':
+        found_person = find_person_by_card(c_uid)
+        if found_person == {}:
+            return ("person with card id "+c_uid+" not found", 404)
+        else:
+            return found_person
 
 
 if __name__ == '__main__':
