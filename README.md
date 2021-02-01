@@ -80,21 +80,17 @@
 ### RFID
 
 #### GET
-`/rfuid` reads the RFID card and returns the current `c_uid`. The request in non-blocking
+`/rfuid` reads the RFID card and returns the current `c_uid`. The request is non-blocking, i.e. it does not block until a card appears to the reader.
 
-*response payload (if found)*:
+*response payload (if found)* with status code `200`:
 ```jsonc
 {
     "c_uid": "4589A3FE"
 }
 ```
 
-*response payload (if not found)*:
-```jsonc
-{
-    "c_uid": null
-}
-```
+*if not found*: fail with status code `404`
+
 
 ### People
 All people are uidentified via their `uid`.

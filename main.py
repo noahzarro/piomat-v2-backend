@@ -1,8 +1,12 @@
 import json
+import time
+import random
 from flask import Flask
+from flask_cors import CORS
 from flask import request
 
 app = Flask("backend")
+CORS(app)
 
 # default person
 default_person = {
@@ -136,16 +140,18 @@ def do_failure():
 
 # * wifi operations
 
+
 def install_wifis():
     # TODO
     print("NYI wifi")
 
 
-def get_wifi_list()
+def get_wifi_list():
     # returns current list of wifis
     return get_settings()["wifis"]
 
-def set_wifi_list(new_wifis)
+
+def set_wifi_list(new_wifis):
     # overwrites the wifis list in the database with new_wifis
     old_settings = get_settings()
     old_settings["wifis"] = new_wifis
@@ -257,6 +263,20 @@ def failure():
     # failure
     do_failure()
     return ("", 204)
+
+# * rfid requests
+
+
+@app.route('/rfuid')
+def rfuid():
+    time.sleep(1)
+    if random.random() > 0.5:
+        data = {
+            "c_uid": "4589A3FE" + str(random.randint(0,10))
+        }
+        return (data, 200)
+    else:
+        return ("", 404)
 
 # * people requests
 
