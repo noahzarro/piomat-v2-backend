@@ -222,10 +222,13 @@ All people are uidentified via their `uid`.
 All persistent data is saved in JSON files. 
 
 ### Personal Data
+
+Note that `uid` 0 is reserved for `Master`
+
 ```jsonc
 [ // list of persons
     {
-        "uid": 0, // unique uidentifier 
+        "uid": 1, // unique uidentifier 
         "surname": "Noah",
         "lastname": "Zarro",
         "vulgo": "Calmo",
