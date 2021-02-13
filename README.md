@@ -264,6 +264,9 @@ Note that `uid` 0 is reserved for `Master`
 ```
 
 ### Settings
+
+Note that `next_person_uid` must be set to 1 at the beginning, to save 0 for `Master`
+
 ```jsonc
 {
     "wifis": 
