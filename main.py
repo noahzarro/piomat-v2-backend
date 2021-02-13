@@ -349,11 +349,15 @@ def people_new_day():
     # return people list
     if request.method == 'DELETE':
         people = get_people_list()
+        print(people)
         todays_list = []
         for person in people:
-            today_person = person["today"] = 0
-            todays_list.append(today_person)
+            print(person)
+            person["today"] = 0
+            todays_list.append(person)
+        print("setting list")
         set_people_list(todays_list)
+        print("set list")
         return ("", 204)
 
 
