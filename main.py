@@ -15,6 +15,7 @@ default_person = {
     "lastname": "",
     "vulgo": "",
     "balance": 0,
+    "today": 0,
     "statistics": 0,
     "awards": [],
     "cards": []
@@ -45,6 +46,12 @@ def set_settings(settings):
     # writes the settings dict
     with open("settings.json", "w") as f:
         json.dump(settings, f)
+
+
+def get_quotes_list():
+    # returns a list of all quotes
+    with open("quotes.json") as f:
+        return json.load(f)
 
 # * people operations
 
@@ -110,6 +117,14 @@ def remove_person(uid):
     people_list = get_people_list()
     new_list = [person for person in people_list if person["uid"] != uid]
     set_people_list(new_list)
+
+
+# * misc operations
+
+def get_random_quote():
+    # returns a randomly chosen quote
+    quotes_list = get_quotes_list()
+    return random.choice(quotes_list)
 
 
 # * system operations
@@ -272,7 +287,7 @@ def rfuid():
     time.sleep(1)
     if random.random() > 0.5:
         data = {
-            "c_uid": "4589A3FE" + str(random.randint(0,10))
+            "c_uid": "4589A3FE8"  # + str(random.randint(0,10))
         }
         return (data, 200)
     else:
@@ -320,13 +335,34 @@ def people_uid(uid):
 
 @app.route('/people/by_card/<c_uid>', methods=['GET'])
 def people_by_card(c_uid):
-    # return people list
+    # return person
     if request.method == 'GET':
         found_person = find_person_by_card(c_uid)
         if found_person == {}:
             return ("person with card id "+c_uid+" not found", 404)
         else:
             return found_person
+
+
+@app.route('/people/new_day', methods=['DELETE'])
+def people_new_day():
+    # return people list
+    if request.method == 'DELETE':
+        people = get_people_list()
+        todays_list = []
+        for person in people:
+            today_person = person["today"] = 0
+            todays_list.append(today_person)
+        set_people_list(todays_list)
+        return ("", 204)
+
+
+# * misc request
+
+
+@app.route('/quote', methods=['GET'])
+def get_quote():
+    return get_random_quote()
 
 
 if __name__ == '__main__':

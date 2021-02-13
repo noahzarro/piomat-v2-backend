@@ -120,6 +120,7 @@ All people are uidentified via their `uid`.
     "lastname": "Zarro",
     "vulgo": "Calmo",
     "balance": 500,
+    "today": 3,
     "statistics": 27,
     "awards":
     [
@@ -145,6 +146,7 @@ All people are uidentified via their `uid`.
     "lastname": "Zarro",
     "vulgo": "Calmo",
     "balance": 500,
+    "today": 3,
     "statistics": 27,
     "awards":
     [
@@ -171,6 +173,7 @@ All people are uidentified via their `uid`.
         "lastname": "", // default
         "vulgo": "", // default
         "balance": 0, // default
+        "today": 0, // default
         "statistics": 0, // default
         "awards": [], // default
         "cards": [] //default
@@ -198,6 +201,21 @@ All people are uidentified via their `uid`.
 #### DELETE
 `/people/{uid}` deletes the person with `uid`.
 
+`/people/new_day` resets everybody's `today` value.
+
+### Miscellaneous
+
+#### GET
+
+`/quote` returns a random quote
+
+*response payload*:
+```jsonc
+{
+    "quote": "actual_quote",
+    "author": "actual_author"
+}
+```
 
 ## Database
 
@@ -212,6 +230,7 @@ All persistent data is saved in JSON files.
         "lastname": "Zarro",
         "vulgo": "Calmo",
         "balance": 500, // balance in Rp
+        "today": 3,  // number of bought items today
         "statistics": 27, // number of bought items
         "awards": // list of achieved awards
         [
