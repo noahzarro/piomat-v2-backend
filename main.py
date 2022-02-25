@@ -1,6 +1,7 @@
 import json
 import time
 import random
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask import request
@@ -318,17 +319,21 @@ def people_uid(uid):
         else:
             return found_person
 
-    # updates person, identified by uid
+    # updates person, identified by (changes to master are discared)
     elif request.method == 'PUT':
         person_dict = request.get_json(force=True)
+        if person_dict["uid"] == 0:
+            return ("", 204) # discard changes to master
         found = update_person(int(uid), person_dict)
         if found:
             return ("", 204)
         else:
             return (uid + " not found", 404)
 
-    # removes person with uid from database
+    # removes person with uid from database (changes to master are discared)
     if request.method == 'DELETE':
+        if int(uid) == 0:
+            return ("", 204) # discard changes to master
         remove_person(int(uid))
         return ("", 204)
 
@@ -370,4 +375,11 @@ def get_quote():
 
 
 if __name__ == '__main__':
+    # create json files if they do not exist yet
+    if not os.path.exists("people.json"):
+        with open("people.json", "w") as f:
+            json.dump([{"uid": 0, "surname": "Master", "lastname": "Master", "vulgo": "Master", "balance": 100, "today": 0, "statistics": 0, "awards": [], "cards": ["MASTER"]}], f)
+    if not os.path.exists("settings.json"):
+        with open("settings.json", "w") as f:
+            json.dump({"wifis":[], "next_person_uid": 1, "next_wifi_uid": 1 }, f)
     app.run(host="127.0.0.1", port=5080, threaded=False)
