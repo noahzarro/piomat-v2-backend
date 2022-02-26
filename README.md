@@ -31,7 +31,6 @@
     "wifis": 
     [
         {
-            "uid": 0, 
             "ssid": "Mutter von Niki Lauda",
             "password": "********"
         }
@@ -39,43 +38,47 @@
 }
 ```
 
-`/wifi/{uid}` returns the wifi with `uid`
+`/wifi/{ssid}` returns the wifi with `ssid`
 
 *response payload*:
 ```jsonc
 {
-    "uid": 0, 
     "ssid": "Mutter von Niki Lauda",
     "password": "********"
 }
 ```
 
 #### POST
-`/wifi` creates a new wifi. The next available `uid` is chosen by the server. All fields are optional. Returns the `uid` of the newly created wifi. Installs all wifis
+`/wifi` creates a new wifi and installs the wifi list. If it does already exist, it is updated
 
 *request payload*:
 ```jsonc
 {
-    "uid": 0, // optional, is not used
     "ssid": "", // first value to update
     "password": "" // second value to update
 }
 ```
 
+*response payload*:
+```jsonc
+{
+    "update": true // true is wifi already existed, otherwise false
+}
+```
+
 #### PUT
-`/wifi/{uid}` updates all fields **except** `uid` of the wifi with `uid`
+`/wifi/{ssid}` updates all fields **except** `ssid` of the wifi with `uid`
 
 *request payload*:
 ```jsonc
 {
-    "uid": 0, // optional, is not used
-    "ssid": "LMS", // first value to update
+    "ssid": "LMS", // gets not updated
     "password": "********" // second value to update
 }
 ```
 
 #### DELETE
-`/wifi/{uid}` deletes the wifi with `uid`.
+`/wifi/{ssid}` deletes the wifi with `ssid`.
 
 ### RFID
 
@@ -272,8 +275,7 @@ Note that `next_person_uid` must be set to 1 at the beginning, to save 0 for `Ma
     "wifis": 
     [ // list of all wifis to connect
         {
-            "uid": 0, // unique uidentifier
-            "ssid": "Mutter von Niki Lauda",
+            "ssid": "Mutter von Niki Lauda", // should already be unique
             "password": "********"
         }
     ],

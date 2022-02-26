@@ -181,59 +181,31 @@ def add_wifi(new_wifi):
     set_wifi_list(wifi_list)
 
 
-def increment_next_wifi_id():
-    # gets and returns the current next_wifi_uid from the settings file, increments it and saves it again
-    settings = get_settings()
-    this_id = settings["next_wifi_uid"]
-    settings["next_wifi_uid"] = this_id+1
-    set_settings(settings)
-    return this_id
-
-
-def create_new_wifi(new_wifi_dict):
-    # assigns a new id to the wifi and saves it
-    new_wifi = default_wifi
-    new_wifi.update(new_wifi_dict)
-    new_wifi["uid"] = increment_next_wifi_id()
-    add_wifi(new_wifi)
-    return {"uid": new_wifi["uid"]}
-
-
-def find_wifi_by_uid(uid):
+def find_wifi_by_ssid(ssid):
     # return wifi with uid
     wifi_list = get_wifi_list()
     for wifi in wifi_list:
-        if wifi["uid"] == uid:
+        if wifi["ssid"] == ssid:
             return wifi
     return {}
 
 
-def find_wifi_by_card(c_uid):
-    # return wifi with c_uid in cards list
-    wifi_list = get_wifi_list()
-    for wifi in wifi_list:
-        for card_uid in wifi["cards"]:
-            if card_uid == c_uid:
-                return wifi
-    return {}
-
-
-def update_wifi(uid, new_wifi_dict):
+def update_wifi(ssid, new_wifi_dict):
     # updates a wifi with new values
     wifi_list = get_wifi_list()
     found = False
     for wifi in wifi_list:
-        if wifi["uid"] == uid:
+        if wifi["ssid"] == ssid:
             wifi.update(new_wifi_dict)
             found = True
     set_wifi_list(wifi_list)
     return found
 
 
-def remove_wifi(uid):
-    # removes wifi with uid from list
+def remove_wifi(ssid):
+    # removes wifi with ssid from list
     wifi_list = get_wifi_list()
-    new_list = [wifi for wifi in wifi_list if wifi["uid"] != uid]
+    new_list = [wifi for wifi in wifi_list if wifi["ssid"] != ssid]
     set_wifi_list(new_list)
 
 
@@ -311,7 +283,7 @@ def people():
 
 @app.route('/people/<uid>', methods=['GET', 'PUT', 'DELETE'])
 def people_uid(uid):
-    # return people list
+    # return person
     if request.method == 'GET':
         found_person = find_person_by_uid(int(uid))
         if found_person == {}:
@@ -364,6 +336,54 @@ def people_new_day():
         set_people_list(todays_list)
         print("set list")
         return ("", 204)
+
+
+# * WIFI requests
+
+@app.route('/wifis', methods=['GET'])
+def wifis():
+    if request.method == 'GET':
+        wifis = get_wifi_list()
+        return({"wifis": wifis}, 200)
+
+
+@app.route('/wifi/<ssid>', methods=['GET', 'PUT', 'DELETE'])
+def wifi(ssid):
+    # return wifi
+    if request.method == 'GET':
+        found_wifi = find_wifi_by_ssid(ssid)
+        if found_wifi == {}:
+            return ("wifi with ssid "+ssid+" not found", 404)
+        else:
+            return found_wifi
+
+    # updates wifi, identified by ssid
+    elif request.method == 'PUT':
+        wifi_dict = request.get_json(force=True)
+        found = update_wifi(ssid, wifi_dict)
+        if found:
+            return ("", 204)
+        else:
+            return (ssid + " not found", 404)
+
+    # removes wifi with ssid from database
+    if request.method == 'DELETE':
+        remove_wifi(ssid)
+        return ("", 204)
+
+@app.route('/wifi', methods=['POST'])
+def new_wifi():
+    if request.method == 'POST':
+        wifi_dict = request.get_json(force=True)
+        ssid = wifi_dict["ssid"]
+        # only add wifi if it does not yet exist
+        if find_wifi_by_ssid(ssid) == {}:
+            add_wifi(wifi_dict)
+            return ({"update": False}, 200)
+        else:
+            update_wifi(ssid, wifi_dict)
+            return ({"update": True}, 200)
+
 
 
 # * misc request
