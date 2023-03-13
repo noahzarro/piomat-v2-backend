@@ -19,7 +19,7 @@ default_person = {
     "today": 0,
     "statistics": 0,
     "awards": [],
-    "cards": []
+    "cards": [],
 }
 
 # * file operations
@@ -54,6 +54,7 @@ def get_quotes_list():
     with open("quotes.json") as f:
         return json.load(f)
 
+
 # * people operations
 
 
@@ -65,10 +66,11 @@ def add_person(new_person):
 
 
 def increment_next_person_id():
-    # gets and returns the current next_person_uid from the settings file, increments it and saves it again
+    # gets and returns the current next_person_uid from the settings file,
+    # increments it and saves it again
     settings = get_settings()
     this_id = settings["next_person_uid"]
-    settings["next_person_uid"] = this_id+1
+    settings["next_person_uid"] = this_id + 1
     set_settings(settings)
     return this_id
 
@@ -122,6 +124,7 @@ def remove_person(uid):
 
 # * misc operations
 
+
 def get_random_quote():
     # returns a randomly chosen quote
     quotes_list = get_quotes_list()
@@ -129,6 +132,7 @@ def get_random_quote():
 
 
 # * system operations
+
 
 def do_backup():
     # TODO
@@ -153,6 +157,7 @@ def do_success():
 def do_failure():
     # TODO
     print("NYI failure")
+
 
 # * wifi operations
 
@@ -212,90 +217,90 @@ def remove_wifi(ssid):
 # * system requests
 
 
-@app.route('/')
+@app.route("/")
 def test():
     # test
     return "hello world"
 
 
-@app.route('/backup')
+@app.route("/backup")
 def backup():
     # backup
     do_backup()
     return ("", 204)
 
 
-@app.route('/shutdown')
+@app.route("/shutdown")
 def shutdown():
     # shutdown
     do_shutdown()
     return ("", 204)
 
 
-@app.route('/reboot')
+@app.route("/reboot")
 def reboot():
     # reboot
     do_reboot()
     return ("", 204)
 
 
-@app.route('/success')
+@app.route("/success")
 def success():
     # success
     do_success()
     return ("", 204)
 
 
-@app.route('/failure')
+@app.route("/failure")
 def failure():
     # failure
     do_failure()
     return ("", 204)
 
+
 # * rfid requests
 
 
-@app.route('/rfuid')
+@app.route("/rfuid")
 def rfuid():
     time.sleep(1)
     if random.random() > 0.5:
-        data = {
-            "c_uid": "4589A3FE8"  # + str(random.randint(0,10))
-        }
+        data = {"c_uid": "4589A3FE8"}  # + str(random.randint(0,10))
         return (data, 200)
     else:
         return ("", 404)
 
+
 # * people requests
 
 
-@app.route('/people', methods=['GET', 'POST'])
+@app.route("/people", methods=["GET", "POST"])
 def people():
     # return people list
-    if request.method == 'GET':
+    if request.method == "GET":
         return {"people": get_people_list()}
 
     # create new people list
-    elif request.method == 'POST':
+    elif request.method == "POST":
         print(request.get_json(force=True))
         return create_new_person(request.get_json(force=True))
 
 
-@app.route('/people/<uid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route("/people/<uid>", methods=["GET", "PUT", "DELETE"])
 def people_uid(uid):
     # return person
-    if request.method == 'GET':
+    if request.method == "GET":
         found_person = find_person_by_uid(int(uid))
         if found_person == {}:
-            return ("person with uid "+uid+" not found", 404)
+            return ("person with uid " + uid + " not found", 404)
         else:
             return found_person
 
     # updates person, identified by (changes to master are discared)
-    elif request.method == 'PUT':
+    elif request.method == "PUT":
         person_dict = request.get_json(force=True)
         if person_dict["uid"] == 0:
-            return ("", 204) # discard changes to master
+            return ("", 204)  # discard changes to master
         found = update_person(int(uid), person_dict)
         if found:
             return ("", 204)
@@ -303,28 +308,28 @@ def people_uid(uid):
             return (uid + " not found", 404)
 
     # removes person with uid from database (changes to master are discared)
-    if request.method == 'DELETE':
+    if request.method == "DELETE":
         if int(uid) == 0:
-            return ("", 204) # discard changes to master
+            return ("", 204)  # discard changes to master
         remove_person(int(uid))
         return ("", 204)
 
 
-@app.route('/people/by_card/<c_uid>', methods=['GET'])
+@app.route("/people/by_card/<c_uid>", methods=["GET"])
 def people_by_card(c_uid):
     # return person
-    if request.method == 'GET':
+    if request.method == "GET":
         found_person = find_person_by_card(c_uid)
         if found_person == {}:
-            return ("person with card id "+c_uid+" not found", 404)
+            return ("person with card id " + c_uid + " not found", 404)
         else:
             return found_person
 
 
-@app.route('/people/new_day', methods=['DELETE'])
+@app.route("/people/new_day", methods=["DELETE"])
 def people_new_day():
     # return people list
-    if request.method == 'DELETE':
+    if request.method == "DELETE":
         people = get_people_list()
         print(people)
         todays_list = []
@@ -340,25 +345,26 @@ def people_new_day():
 
 # * WIFI requests
 
-@app.route('/wifis', methods=['GET'])
+
+@app.route("/wifis", methods=["GET"])
 def wifis():
-    if request.method == 'GET':
+    if request.method == "GET":
         wifis = get_wifi_list()
-        return({"wifis": wifis}, 200)
+        return ({"wifis": wifis}, 200)
 
 
-@app.route('/wifi/<ssid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route("/wifi/<ssid>", methods=["GET", "PUT", "DELETE"])
 def wifi(ssid):
     # return wifi
-    if request.method == 'GET':
+    if request.method == "GET":
         found_wifi = find_wifi_by_ssid(ssid)
         if found_wifi == {}:
-            return ("wifi with ssid "+ssid+" not found", 404)
+            return ("wifi with ssid " + ssid + " not found", 404)
         else:
             return found_wifi
 
     # updates wifi, identified by ssid
-    elif request.method == 'PUT':
+    elif request.method == "PUT":
         wifi_dict = request.get_json(force=True)
         found = update_wifi(ssid, wifi_dict)
         if found:
@@ -367,13 +373,14 @@ def wifi(ssid):
             return (ssid + " not found", 404)
 
     # removes wifi with ssid from database
-    if request.method == 'DELETE':
+    if request.method == "DELETE":
         remove_wifi(ssid)
         return ("", 204)
 
-@app.route('/wifi', methods=['POST'])
+
+@app.route("/wifi", methods=["POST"])
 def new_wifi():
-    if request.method == 'POST':
+    if request.method == "POST":
         wifi_dict = request.get_json(force=True)
         ssid = wifi_dict["ssid"]
         # only add wifi if it does not yet exist
@@ -385,21 +392,35 @@ def new_wifi():
             return ({"update": True}, 200)
 
 
-
 # * misc request
 
 
-@app.route('/quote', methods=['GET'])
+@app.route("/quote", methods=["GET"])
 def get_quote():
     return get_random_quote()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # create json files if they do not exist yet
     if not os.path.exists("people.json"):
         with open("people.json", "w") as f:
-            json.dump([{"uid": 0, "surname": "Master", "lastname": "Master", "vulgo": "Master", "balance": 100, "today": 0, "statistics": 0, "awards": [], "cards": ["MASTER"]}], f)
+            json.dump(
+                [
+                    {
+                        "uid": 0,
+                        "surname": "Master",
+                        "lastname": "Master",
+                        "vulgo": "Master",
+                        "balance": 100,
+                        "today": 0,
+                        "statistics": 0,
+                        "awards": [],
+                        "cards": ["MASTER"],
+                    }
+                ],
+                f,
+            )
     if not os.path.exists("settings.json"):
         with open("settings.json", "w") as f:
-            json.dump({"wifis":[], "next_person_uid": 1, "next_wifi_uid": 1 }, f)
+            json.dump({"wifis": [], "next_person_uid": 1, "next_wifi_uid": 1}, f)
     app.run(host="127.0.0.1", port=5080, threaded=False)
