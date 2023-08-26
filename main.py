@@ -5,6 +5,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask import request
+import requests
 
 app = Flask("backend")
 CORS(app)
@@ -131,9 +132,9 @@ def get_random_quote():
 # * system operations
 
 def do_backup():
-    # TODO
-    print("NYI backup")
-
+    backup_data = get_people_list()
+    req = requests.post("https://backup.pio-o-mat.ch/backup", json={"backup": backup_data})
+    return req.ok
 
 def do_shutdown():
     # TODO
@@ -221,8 +222,11 @@ def test():
 @app.route('/backup')
 def backup():
     # backup
-    do_backup()
-    return ("", 204)
+    suc = do_backup()
+    if suc:
+        return ("", 204)
+    else:
+        return ("", 404)
 
 
 @app.route('/shutdown')

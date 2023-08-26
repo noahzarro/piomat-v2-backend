@@ -96,7 +96,7 @@
 
 
 ### People
-All people are uidentified via their `uid`.
+All people are identified via their `uid`. The master always has `uid 0`. Changes to the master will be discarded. 
 
 #### GET
 
