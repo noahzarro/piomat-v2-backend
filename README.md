@@ -224,9 +224,17 @@ All people are identified via their `uid`. The master always has `uid 0`. Change
 
 #### GET
 
-`/stickers/images/{sid}` returns the image file corresponding to sticker with ID `sid`
+`/stickers/image/{sid}` returns the image file corresponding to sticker with ID `sid`
 
 `/stickers/sound/{sid}` returns the sound file corresponding to sticker with ID `sid`
+
+`/stickers/name/{sid}` returns the name corresponding to sticker with ID `sid`
+
+```jsonc
+{
+    "name": "Calvin Agi"
+}
+```
 
 
 ## Database

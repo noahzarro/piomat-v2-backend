@@ -408,8 +408,8 @@ def get_sticker_sound_file_name(sid):
     stickers = get_stickers_list()
     return stickers[sid]["sound"]
 
-@app.route('/stickers/photo/<sid>', methods=['GET'])
-def get_sticker_photo(sid):
+@app.route('/stickers/image/<sid>', methods=['GET'])
+def get_sticker_image(sid):
     file_path = get_sticker_image_file_name(sid)
     return send_file(os.path.join("stickers", file_path))
 
@@ -420,7 +420,8 @@ def get_sticker_sound(sid):
 
 @app.route('/stickers/name/<sid>', methods=['GET'])
 def get_sticker_name(sid):
-    name = get_sticker_name(sid)
+    stickers = get_stickers_list()
+    name =  stickers[sid]["name"]
     return ({"name": name}, 200)
 
 
