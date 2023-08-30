@@ -3,10 +3,12 @@
 ## Frontend 
 - [ ] Achievements
 - [x] System Requests
+- [ ] Collectibles
 
 ## Backend
 - [ ] Add hardware layer
-- [ ] Add backup request
+- [x] Add backup request
+- [ ] Collectibles
 
 ## Server
 - [x] Deploy

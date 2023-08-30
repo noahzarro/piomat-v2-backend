@@ -2,7 +2,7 @@ import json
 import time
 import random
 import os
-from flask import Flask
+from flask import Flask, send_file
 from flask_cors import CORS
 from flask import request
 import requests
@@ -20,11 +20,20 @@ default_person = {
     "today": 0,
     "statistics": 0,
     "awards": [],
-    "cards": []
+    "cards": [],
+    "stickers" :
+        {
+            "collection": [0],
+            "selected": 0
+        }
 }
 
 # * file operations
 
+def get_stickers_list():
+    # returns a list of all stickers
+    with open("stickers.json") as f:
+        return json.load(f)
 
 def get_people_list():
     # returns a list of all people
@@ -388,6 +397,31 @@ def new_wifi():
             update_wifi(ssid, wifi_dict)
             return ({"update": True}, 200)
 
+
+# * stickers
+
+def get_sticker_image_file_name(sid):
+    stickers = get_stickers_list()
+    return stickers[sid]["image"]
+
+def get_sticker_sound_file_name(sid):
+    stickers = get_stickers_list()
+    return stickers[sid]["sound"]
+
+@app.route('/stickers/photo/<sid>', methods=['GET'])
+def get_sticker_photo(sid):
+    file_path = get_sticker_image_file_name(sid)
+    return send_file(os.path.join("stickers", file_path))
+
+@app.route('/stickers/sound/<sid>', methods=['GET'])
+def get_sticker_sound(sid):
+    file_path = get_sticker_sound_file_name(sid)
+    return send_file(os.path.join("stickers", file_path))
+
+@app.route('/stickers/name/<sid>', methods=['GET'])
+def get_sticker_name(sid):
+    name = get_sticker_name(sid)
+    return ({"name": name}, 200)
 
 
 # * misc request

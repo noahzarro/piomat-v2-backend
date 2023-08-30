@@ -1,0 +1,137 @@
+{
+    "0": {
+        "name": "Nüt",
+        "sound": "default.mp3",
+        "image": "default.png"
+    },
+    "1": {
+        "name": "Vollasi Calvin",
+        "sound": "vollasi_calvin.mp3",
+        "image": "vollasi_calvin.jpeg"
+    },
+    "2": {
+        "name": "Agi",
+        "sound": "Agi.mp3",
+        "image": "Agi.jpeg"
+    },
+    "3": {
+        "name": "I Dont Speek Any Words",
+        "sound": "i_dont_speek_any_words.mp3",
+        "image": "i_dont_speek_any_words.jpeg"
+    },
+    "4": {
+        "name": "Schwein Gehabt",
+        "sound": "schwein_gehabt.mp3",
+        "image": "schwein_gehabt.webp"
+    },
+    "5": {
+        "name": "S Mul Voll",
+        "sound": "s_mul_voll.mp3",
+        "image": "s_mul_voll.jpeg"
+    },
+    "6": {
+        "name": "Polizeie Vermischt",
+        "sound": "polizeie_vermischt.mp3",
+        "image": "polizeie_vermischt.jpeg"
+    },
+    "7": {
+        "name": "Und De Caal",
+        "sound": "und_de_caal.mp3",
+        "image": "und_de_caal.jpeg"
+    },
+    "8": {
+        "name": "Vollasichlotz",
+        "sound": "vollasichlotz.mp3",
+        "image": "vollasichlotz.jpeg"
+    },
+    "9": {
+        "name": "F\u00e4bi Trauriger Hunt",
+        "sound": "f\u00e4bi_trauriger_hunt.mp3",
+        "image": "f\u00e4bi_trauriger_hunt.jpeg"
+    },
+    "10": {
+        "name": "Enlish Pigdogs",
+        "sound": "enlish_pigdogs.mp3",
+        "image": "enlish_pigdogs.jpg"
+    },
+    "11": {
+        "name": "Zviel Dreck Zviel Agitype",
+        "sound": "zviel_dreck_zviel_agitype.mp3",
+        "image": "zviel_dreck_zviel_agitype.jpeg"
+    },
+    "12": {
+        "name": "Selebiboy",
+        "sound": "selebiboy.mp3",
+        "image": "selebiboy.jpeg"
+    },
+    "13": {
+        "name": "Fart General Direction",
+        "sound": "fart_general_direction.mp3",
+        "image": "fart_general_direction.jpg"
+    },
+    "14": {
+        "name": "Orangensaft",
+        "sound": "orangensaft.mp3",
+        "image": "orangensaft.jpg"
+    },
+    "15": {
+        "name": "Flotation Device",
+        "sound": "flotation_device.mp3",
+        "image": "flotation_device.jpg"
+    },
+    "16": {
+        "name": "\u00dc\u00fc\u00fc I Mun Morn Schaffe",
+        "sound": "\u00fc\u00fc\u00fc_i_mun_morn_schaffe.mp3",
+        "image": "\u00fc\u00fc\u00fc_i_mun_morn_schaffe.jpeg"
+    },
+    "17": {
+        "name": "Seg De Name M\u00f6lle",
+        "sound": "seg_de_name_m\u00f6lle.mp3",
+        "image": "seg_de_name_m\u00f6lle.jpeg"
+    },
+    "18": {
+        "name": "Bag Of Seeds",
+        "sound": "bag_of_seeds.mp3",
+        "image": "bag_of_seeds.jpg"
+    },
+    "19": {
+        "name": "Unakzeptabel",
+        "sound": "unakzeptabel.mp3",
+        "image": "unakzeptabel.jpeg"
+    },
+    "20": {
+        "name": "Trurig Weme 1000 Mol Al\u00fctet",
+        "sound": "trurig_weme_1000_mol_al\u00fctet.mp3",
+        "image": "trurig_weme_1000_mol_al\u00fctet.jpeg"
+    },
+    "21": {
+        "name": "Gragau",
+        "sound": "gragau.mp3",
+        "image": "gragau.jpeg"
+    },
+    "22": {
+        "name": "Gnigget",
+        "sound": "gnigget.mp3",
+        "image": "gnigget.png"
+    },
+    "23": {
+        "name": "Schlagt Die Trommel",
+        "sound": "schlagt_die_trommel.mp3",
+        "image": "schlagt_die_trommel.png"
+    },
+    "24": {
+        "name": "Me Sind Mitem Velo Do",
+        "sound": "me_sind_mitem_velo_do.mp3",
+        "image": "me_sind_mitem_velo_do.jpeg"
+    },
+    "25": {
+        "name": "Iii\u00e4",
+        "sound": "III\u00e4.mp3",
+        "image": "III\u00e4.jpeg"
+    },
+    "26": {
+        "name": "Vollasi Aqua",
+        "sound": "vollasi_aqua.mp3",
+        "image": "vollasi_aqua.jpeg"
+    }
+}

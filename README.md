@@ -220,6 +220,15 @@ All people are identified via their `uid`. The master always has `uid 0`. Change
 }
 ```
 
+### Stickers
+
+#### GET
+
+`/stickers/images/{sid}` returns the image file corresponding to sticker with ID `sid`
+
+`/stickers/sound/{sid}` returns the sound file corresponding to sticker with ID `sid`
+
+
 ## Database
 
 All persistent data is saved in JSON files. 
@@ -252,6 +261,18 @@ Note that `uid` 0 is reserved for `Master`
 
     }
 ]
+```
+
+### Stickers
+```jsonc
+{ // list of all stickers
+    "1": // sid 
+    {
+        "name": "Calvin",
+        "image": "Calvin.png",
+        "sound": "Calvin.mp3"
+    }
+}
 ```
 
 ### Achievements
